@@ -1,36 +1,28 @@
-# Yerel Apache Airflow (RAM Optimizasyonlu & LocalExecutor)
+# 🚀 Yerel Apache Airflow (RAM Optimizasyonlu & LocalExecutor)
 
-Bu depo, Apache Airflow'u Docker Compose ile yerel geliştirme ve öğrenme amacıyla çalıştırır. `LocalExecutor` görevleri Airflow ortamında yerel olarak yürütür; Celery worker ve Redis servisi kullanılmaz. PostgreSQL Airflow metadata'sını saklar, DAG dosyaları `dags/` klasöründen okunur ve web arayüzü `http://localhost:8080` adresinde açılır.
-
-> **Uyarı:** Bu kurulum yerel geliştirme içindir; internete açık üretim ortamı olarak tasarlanmamıştır.
+Bu proje; Apache Airflow'u Docker Compose kullanarak yerel geliştirme, test ve veri işleme amacıyla en verimli şekilde çalıştırmak üzere yapılandırılmıştır. `LocalExecutor` mimarisi kullanılarak Celery worker ve Redis gibi ekstra servislere ihtiyaç duymadan RAM tüketimi minimum seviyede tutulur.
 
 ---
 
-## RAM Kullanımı
+## 📋 Ön Gereksinimler
 
-Bu Compose düzeninde Celery worker ve Redis olmadığından, Celery/Redis tabanlı bir düzene göre daha az servis çalışır ve kaynak tüketimi azalabilir. 
-
-Bu bir sabit RAM sınırı değildir: Airflow API server, scheduler, DAG processor, triggerer ve PostgreSQL yine çalışır; görevlerin bellek kullanımı ve paralelliği toplam tüketime etki eder. Docker Desktop kaynaklarını bilgisayarınıza uygun ayarlayın ve kullanımı görmek için terminalde `docker stats` çalıştırın.
-
----
-
-## Gereksinimler
-
+Projeyi bilgisayarınızda çalıştırmadan önce aşağıdaki araçların kurulu ve hazır olduğundan emin olun:
+- **Python 3.10+**
 - **Git**
-- **Docker Desktop** kurulu ve çalışır durumda olmalı; Windows'ta Linux konteynerlerini çalıştırabilmeli.
-- **GitHub deposuna erişim** (özel depolar için GitHub kimlik doğrulaması gerekir).
+- **Docker Desktop** (Açık ve çalışır durumda olmalı; Windows kullanıcıları için Linux konteyner modunda aktif olmalıdır).
 
 ---
 
-## GitHub'dan İndirip İlk Kez Çalıştırma
+## 🛠️ Sıfırdan Kurulum ve Çalıştırma Rehberi
 
-Komutları PowerShell'de sırayla çalıştırın. 
-* `GITHUB_KLON_ADRESI` yerine GitHub'daki **Code → HTTPS** menüsünden aldığınız adresi yazın.
-* `REPO_KLASORU` yerine `git clone` komutunun oluşturduğu klasör adını kullanın.
+Projeyi klonladıktan veya ZIP olarak indirdikten sonra, VS Code içerisinde bir PowerShell terminali açarak sırasıyla aşağıdaki adımları uygulayın.
 
-### 1. Depoyu Klonlayıp VS Code'da Açın
+### 1. Python Sanal Ortamını (venv) Kurun ve Aktif Edin
+Yerel geliştirme ortamınızın diğer projelerle çakışmaması için önce izole bir sanal ortam oluşturun:
 
 ```powershell
-git clone GITHUB_KLON_ADRESI
-Set-Location .\REPO_KLASORU
-code .
+# Sanal ortamı oluşturun
+python -m venv .venv
+
+# Sanal ortamı aktif hale getirin (Windows PowerShell)
+.venv\Scripts\Activate.ps1
