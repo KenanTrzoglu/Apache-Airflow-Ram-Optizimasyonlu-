@@ -1,40 +1,36 @@
-# 🚀 Yerel Apache Airflow (RAM Optimizasyonlu & LocalExecutor)
+# Yerel Apache Airflow (RAM Optimizasyonlu & LocalExecutor)
 
-Bu depo, **Apache Airflow**'u Docker Compose kullanarak yerel geliştirme ve öğrenme amacıyla hızlıca ayağa kaldırmanızı sağlar.
+Bu depo, Apache Airflow'u Docker Compose ile yerel geliştirme ve öğrenme amacıyla çalıştırır. `LocalExecutor` görevleri Airflow ortamında yerel olarak yürütür; Celery worker ve Redis servisi kullanılmaz. PostgreSQL Airflow metadata'sını saklar, DAG dosyaları `dags/` klasöründen okunur ve web arayüzü `http://localhost:8080` adresinde açılır.
 
-* **Mimari:** `LocalExecutor` kullanır; Celery worker ve Redis servisine ihtiyaç duymaz, bu sayede kaynak tüketimi minimumda tutulur.
-* **Veritabanı:** PostgreSQL, Airflow metadata'sını güvenle saklar.
-* **DAG Klasörü:** Tüm DAG dosyalarınız `dags/` klasöründen otomatik olarak okunur.
-* **Arayüz:** `http://localhost:8080` adresinden erişilir.
-
-> ⚠️ **Uyarı:** Bu kurulum yalnızca yerel geliştirme ve test içindir; internete açık bir üretim (production) ortamı olarak tasarlanmamıştır.
+> **Uyarı:** Bu kurulum yerel geliştirme içindir; internete açık üretim ortamı olarak tasarlanmamıştır.
 
 ---
 
-## 💻 RAM ve Kaynak Kullanımı
+## RAM Kullanımı
 
-Bu Compose düzeninde Celery worker ve Redis bulunmadığı için klasik mimarilere göre daha az servis çalışır ve RAM tüketimi azalır. 
-* Bu durum **sabit bir RAM sınırı değildir**; Airflow API server, scheduler, DAG processor, triggerer ve PostgreSQL servisleri aktif olarak çalışır.
-* Bilgisayarınızın performansına göre Docker Desktop kaynak ayarlarını yapılandırabilir, anlık tüketimi görmek için terminalde `docker stats` komutunu çalıştırabilirsiniz.
+Bu Compose düzeninde Celery worker ve Redis olmadığından, Celery/Redis tabanlı bir düzene göre daha az servis çalışır ve kaynak tüketimi azalabilir. 
 
----
-
-## 📦 Gereksinimler
-
-* **Git** yüklü olmalıdır.
-* **Docker Desktop** kurulu ve çalışır durumda olmalıdır (Windows kullanıyorsanız **Linux Containers** modunda çalışmalıdır).
-* GitHub hesabınız ve depoya erişim yetkiniz bulunmalıdır.
+Bu bir sabit RAM sınırı değildir: Airflow API server, scheduler, DAG processor, triggerer ve PostgreSQL yine çalışır; görevlerin bellek kullanımı ve paralelliği toplam tüketime etki eder. Docker Desktop kaynaklarını bilgisayarınıza uygun ayarlayın ve kullanımı görmek için terminalde `docker stats` çalıştırın.
 
 ---
 
-## ⚡ Hızlı Başlangıç Rehberi (İlk Kez Çalıştıranlar İçin)
+## Gereksinimler
 
-Projeyi bilgisayarınıza indirip ilk kez çalıştırırken PowerShell üzerinde sırasıyla şu adımları izleyin:
+- **Git**
+- **Docker Desktop** kurulu ve çalışır durumda olmalı; Windows'ta Linux konteynerlerini çalıştırabilmeli.
+- **GitHub deposuna erişim** (özel depolar için GitHub kimlik doğrulaması gerekir).
 
-### 1. Depoyu Klonlayın ve Klasöre Girin
-Terminalde aşağıdaki komutları çalıştırın (`GITHUB_KLON_ADRESI` yerine GitHub'daki **Code -> HTTPS** adresini yapıştırın):
+---
+
+## GitHub'dan İndirip İlk Kez Çalıştırma
+
+Komutları PowerShell'de sırayla çalıştırın. 
+* `GITHUB_KLON_ADRESI` yerine GitHub'daki **Code → HTTPS** menüsünden aldığınız adresi yazın.
+* `REPO_KLASORU` yerine `git clone` komutunun oluşturduğu klasör adını kullanın.
+
+### 1. Depoyu Klonlayıp VS Code'da Açın
 
 ```powershell
 git clone GITHUB_KLON_ADRESI
-Set-Location .\Apache-airflow
+Set-Location .\REPO_KLASORU
 code .
